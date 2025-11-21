@@ -10,32 +10,73 @@ import {getReminderContent, getNotificationContent} from "../utils/reminderConte
 export const inngest = new Inngest({ id: "postly", eventKey: process.env.INNGEST_EVENT_KEY });
 
 // Inngest function to save user of clerk data to a database
+// const syncUserCreation = inngest.createFunction(
+//     {id: "sync-user-from-clerk"},
+//     {event: "clerk/user.created"},
+//     async ({event, step})=> {
+//         const {id, first_name, last_name, email_addresses, image_url} = event.data
+//         const email = email_addresses[0].email_address
+//         const full_name = last_name ? first_name + ' ' + last_name : first_name
+//         let username = email.split("@")[0]
+
+//         await step.run("check-username", async()=> {
+//             const user = await userModel.findOne({username})
+//             if(user) username = username + Math.floor(Math.random() * 10000)
+//         })
+
+//         const userData = {
+//             _id:id,
+//             email,
+//             username,
+//             full_name,
+//             profile_picture: image_url
+//         }
+//         await step.run("create-user", async()=> {
+//             await userModel.create(userData)
+//         })
+//     }
+// )
+
+// Inngest function to save Clerk user to DB
 const syncUserCreation = inngest.createFunction(
-    {id: "sync-user-from-clerk"},
-    {event: "clerk/user.created"},
-    async ({event, step})=> {
-        const {id, first_name, last_name, email_addresses, image_url} = event.data
-        const email = email_addresses[0].email_address
-        const full_name = last_name ? first_name + ' ' + last_name : first_name
-        let username = email.split("@")[0]
+  { id: "sync-user-from-clerk" },
+  { event: "clerk/user.created" },
+  async ({ event, step }) => {
+    try {
+      const { id, first_name, last_name, email_addresses, image_url } = event.data;
+      const email = email_addresses[0].email_address;
+      const full_name = last_name ? `${first_name} ${last_name}` : first_name;
+      let username = email.split("@")[0];
 
-        await step.run("check-username", async()=> {
-            const user = await userModel.findOne({username})
-            if(user) username = username + Math.floor(Math.random() * 10000)
-        })
+      // Check if username exists
+      await step.run("check-username", async () => {
+        const existing = await userModel.findOne({ username });
+        if (existing) username = `${username}${Math.floor(Math.random() * 10000)}`;
+      });
 
-        const userData = {
-            _id:id,
-            email,
-            username,
-            full_name,
-            profile_picture: image_url
-        }
-        await step.run("create-user", async()=> {
-            await userModel.create(userData)
-        })
+      const userData = {
+        _id: id,  // matches your schema
+        email,
+        username,
+        full_name,
+        profile_picture: image_url,
+      };
+
+      // Logging to debug
+      console.log("Creating user:", userData);
+
+      await step.run("create-user", async () => {
+        const created = await userModel.create(userData);
+        console.log("User created:", created);
+      });
+
+    } catch (err) {
+      console.error("Error in syncUserCreation:", err);
+      throw err;
     }
-)
+  }
+);
+
 
 // Inngest function to update user of clerk data to a database
 const syncUserUpdation = inngest.createFunction(
