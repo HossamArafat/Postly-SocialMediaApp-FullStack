@@ -40,7 +40,7 @@ const syncUserCreation = inngest.createFunction(
 // Inngest function to update user of clerk data to a database
 const syncUserUpdation = inngest.createFunction(
     {id: "update-user-from-clerk"},
-    {event: "clerk/user.update"},
+    {event: "clerk/user.updated"},
     async ({event, step})=> {
         const {id, first_name, last_name, email_addresses, image_url} = event.data
         const email = email_addresses[0].email_address
@@ -84,7 +84,7 @@ const syncStoryDeletion = inngest.createFunction(
 // Inngest function to send reminder of request connection to user email
 const syncNewConnectionRequestReminder = inngest.createFunction(
     {id: "sync-connection-request-reminder"},
-    {event: "app/connection.request"},
+    {event: "app/connection.requested"},
     async ({event, step})=> {
         const {connectionId} = event.data
         await step.run("send-connection-request", async()=> { 
