@@ -1,14 +1,14 @@
 import { Link, useNavigate } from "react-router-dom"
-import { dummyUserData } from "../../assets/dummy-data"
 import logo from '../../assets/images/logo.png'
 import { LogOut, Menu, X } from "lucide-react"
 import { useClerk, UserButton } from "@clerk/clerk-react"
 import MenuItems from "./MenuItems"
 import { useState } from "react"
+import { useSelector } from "react-redux"
 
 const Sidebar = () => {
   const navigate = useNavigate()
-  const user = dummyUserData
+  const {currentUser} = useSelector(state => state.user)
   const { signOut } = useClerk()
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
@@ -35,8 +35,8 @@ const Sidebar = () => {
         <div className="w-full border-t border-gray-200 p-4 px-7 flex items-center justify-between">
           <UserButton/>
           <div>
-              <h1 className="text-sm font-medium">{user.full_name}</h1>
-              <p className="text-xs text-gray-500">{user.username}</p>
+              <h1 className="text-sm font-medium">{currentUser.full_name}</h1>
+              <p className="text-xs text-gray-500">{currentUser.username}</p>
           </div>
           <LogOut onClick={signOut} className="w-4.5 mb-1 text-gray-400 hover:text-gray-700 transition cursor-pointer"/>
         </div>
