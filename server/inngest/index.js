@@ -47,7 +47,6 @@ const syncUserUpdation = inngest.createFunction(
         const full_name = last_name ? first_name + ' ' + last_name : first_name
         const updatedUserData = {
             email,
-            username,
             full_name,
             profile_picture: image_url
         }
@@ -141,5 +140,6 @@ export const functions = [
     syncUserUpdation,
     syncUserDeletion,
     syncStoryDeletion,
-    syncNewConnectionRequestReminder
+    syncNewConnectionRequestReminder,
+    syncUnseenMessages
 ];

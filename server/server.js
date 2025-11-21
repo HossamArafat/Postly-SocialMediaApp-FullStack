@@ -15,7 +15,7 @@ connectDB()
 const app = express()
 app.use(express.json())
 app.use(cors())
-app.use(clerkMiddleware()) // attach auth() of clerk to each request, handle with verifying token, id...
+app.use(clerkMiddleware())
 
 
 app.get("/", (req, res) => res.send("Server is running"))
