@@ -14,9 +14,7 @@ const syncUserCreation = inngest.createFunction(
     {id: "sync-user-from-clerk"},
     {event: "clerk/user.created"},
     async ({event, step})=> {
-        const {id, first_name, last_name, email_addresses, image_url} = event.data
-        console.log('_id: ', id)
-        
+        const {id, first_name, last_name, email_addresses, image_url} = event.data       
         const email = email_addresses[0].email_address
         const full_name = last_name ? first_name + ' ' + last_name : first_name
         let username = email.split("@")[0]
