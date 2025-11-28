@@ -20,7 +20,6 @@ const Discover = () => {
 
   // Functions
   const handleSearch = ()=> dispatch(discoverProfiles(keyword))
-  console.log(discoveredUsers)
 
   return (
       <div className="max-w-6xl px-6">
