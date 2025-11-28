@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
-import CreateStory from "./CreateStory"
-import { HandHeart, Plus } from "lucide-react"
+import { Plus } from "lucide-react"
 import ViewStory from "./ViewStory"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchStories } from "../../redux/features/stories/storyThunks"
-import StoryCard from "./storyCard"
+import CreateStory from "./CreateStory"
+import StoryCard from "./StoryCard"
 
 
 const StoriesBar = () => {
