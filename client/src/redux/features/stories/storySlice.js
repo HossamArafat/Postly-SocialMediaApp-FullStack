@@ -5,7 +5,7 @@ import { fetchStories } from "./storyThunks";
 const storySlice = createSlice({
   name: "story",
   initialState: {
-    stories: [], //first look => loading, failed=> retry, []=> no data, [..]=> data show
+    stories: [],
   },
   extraReducers: (builder) => {
     builder

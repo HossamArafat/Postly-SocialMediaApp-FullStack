@@ -9,7 +9,6 @@ const uploadImg = async (img, folderName) => {
         fileName: img.originalname,
         folder: folderName
     })
-    console.log(response)
 
     if(!img.mimetype.startsWith("image")) return response.url // video
 

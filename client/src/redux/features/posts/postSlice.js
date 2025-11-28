@@ -4,7 +4,7 @@ import { fetchFeeds } from "./postThunks";
 const postSlice = createSlice({
   name: "post",
   initialState: {
-    feeds: [],    //first look => loading, failed=> retry, []=> no data, [..]=> data show
+    feeds: [],
   },
   extraReducers: (builder) => {
     builder

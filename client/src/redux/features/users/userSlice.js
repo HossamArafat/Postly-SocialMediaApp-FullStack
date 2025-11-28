@@ -14,10 +14,15 @@ const userSlice = createSlice({
     profile: null,
     posts: [],
     likedPosts: [],
-    discoverdUsers: [],
     users: {},
+    discoveredUsers: [],
+    connStatusOfDiscoveredUsers: [],
   },
-
+  reducers: {
+    resetDiscoveredUsers: (state) => {
+      state.discoveredUsers = []
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchUserData.fulfilled, (state, action) => {
@@ -35,9 +40,11 @@ const userSlice = createSlice({
         state.users = action.payload;
       })
       .addCase(discoverProfiles.fulfilled, (state, action) => {
-        state.discoverdUsers = action.payload;
+        state.discoveredUsers = action.payload.users;
+        state.connStatusOfDiscoveredUsers = action.payload.connections;
       })
   },
 });
 
+export const {resetDiscoveredUsers} = userSlice.actions
 export default userSlice.reducer;

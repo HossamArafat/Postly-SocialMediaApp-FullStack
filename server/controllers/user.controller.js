@@ -3,6 +3,7 @@ import postModel from "../models/post.model.js"
 import uploadImg from "../utils/uploadImg.js"
 import connectionModel from "../models/connection.model.js"
 
+
 // @des    Get the user data
 // @route  GET api/user/data
 // @access private-logged user
@@ -28,7 +29,7 @@ const updateUserData = async(req, res)=> {
        const cover = req.files?.cover?.[0]
         
        // Profile
-       if(profile) {  // async may repeat with many await, may be in try or if condtion(or any block scope)...but not function scope
+       if(profile) {
             const  url = await uploadImg(profile, "users")
             req.body.profile_picture = url
        }
@@ -53,13 +54,12 @@ const getUsers = async (req, res) => {
         const {userId} = req.auth()
         const user = await userModel.findById(userId).populate("connections followers following")
         const { followers, following, connections } = user
-        const pendingConnections = (await connectionModel.find({to_user: userId, status: "pending"}).populate("from_user")).map((connection)=> connection.from_user) //return the user that i'm waiting the acceptence of their connections
+        const pendingConnections = (await connectionModel.find({to_user: userId, status: "pending"}).populate("from_user")).flatMap((conn)=> conn.from_user) //return the user that i'm waiting the acceptence of their connections
         const users = {connections, followers, following, pendingConnections}
         res.json({success: true, users})
         
     }catch(err){
         res.status(400).json({success: false, message: err.message})
-        console.log(err)
     }
 }
 
@@ -93,19 +93,25 @@ const discoverUsers = async (req, res) => {
     try{
       const {userId} = req.auth()
       const {keyword} = req.params
-      const allUsers = await userModel.find({
+      const search = await userModel.find({
+        _id: {$ne: userId},
         $or: [
             {username: new RegExp(keyword, 'i')},
             {email: new RegExp(keyword, 'i')},
             {full_name: new RegExp(keyword, 'i')},
             {location: new RegExp(keyword, 'i')},
         ]
-      }) 
-      const filteredUsers = allUsers.filter(user=> user._id !== userId)
-      res.json({success: true, users: filteredUsers})
+      })
+      const userIds = search.map((u) => u._id);
+      const connections = await connectionModel.find({
+        $or: [
+            { from_user: userId, to_user: { $in: userIds } },
+            { to_user: userId, from_user: { $in: userIds } },
+        ]
+      })
+      res.json({success: true, users: search, connections})
     }catch(err){
         res.status(400).json({success: false, message: err.message})
-        console.log(err)
     }
 }
 
@@ -116,17 +122,22 @@ const followUser = async (req, res) => {
     try{
         const {userId} = req.auth()
         const {profileId} = req.body
-        const user = await userModel.findById(userId)
 
-        if(user.following.includes(profileId))
-           return res.status(409).json({success: false, message: "You are already following this user"})
-        
+        const user = await userModel.findById(userId)
+        if(user.following.includes(profileId))  return res.status(409).json({success: false, message: "You are already following this user"})
+        if(user.followers.includes(profileId)) user.connections.push(profileId)
         user.following.push(profileId)
         await user.save()
         
         const toUser = await userModel.findById(profileId)
         toUser.followers.push(userId)
+        if(toUser.following.includes(userId)) toUser.connections.push(userId)
         await toUser.save()
+
+        // Add connection if both are following each other
+        if(toUser.following.includes(userId)) {
+            await connectionModel.create({from_user:userId, to_user:profileId, status: "accepted"})
+        }
 
         res.json({success: true, message: "Now You are following this user"})
 
@@ -145,11 +156,20 @@ const unfollowUser = async (req, res) => {
 
         const user = await userModel.findById(userId)
         user.following = user.following.filter(user=> user != profileId)
+        user.connections = user.connections.filter(user=> user != profileId)
         await user.save()
         
         const toUser = await userModel.findById(profileId)
         toUser.followers = toUser.followers.filter(user=> user != userId)
+        toUser.connections = toUser.connections.filter(user=> user != userId)
         await toUser.save()
+
+        await connectionModel.deleteOne({
+            $or: [
+                { from_user: userId, to_user: profileId },
+                { to_user: userId, from_user: profileId },
+            ]
+        })
         
         res.json({success: true, message: "You are no longer following this user"})
 
@@ -166,13 +186,22 @@ const removeUser = async (req, res) => {
         const {userId} = req.auth()
         const {profileId} = req.body
 
-        const user = await userModel.findById(profileId)
+        const user = await userModel.findById(userId)
         user.followers = user.followers.filter(user=> user != profileId)
+        user.connections = user.connections.filter(user=> user != profileId)
         await user.save()
         
-        const toUser = await userModel.findById(userId)
+        const toUser = await userModel.findById(profileId)
         toUser.following = toUser.following.filter(user=> user != userId)
+        toUser.connections = toUser.connections.filter(user=> user != userId)
         await toUser.save()
+
+        await connectionModel.deleteOne({
+            $or: [
+                { from_user: userId, to_user: profileId },
+                { to_user: userId, from_user: profileId },
+            ]
+        })
         
         res.json({success: true, message: "You are no longer following this user"})
 

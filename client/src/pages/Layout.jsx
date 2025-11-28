@@ -1,4 +1,3 @@
-// import {dummyUserData} from '../assets/dummy-data'
 import { Outlet } from 'react-router-dom'
 import Sidebar from '../components/sidebar/Sidebar'
 import { useContext } from 'react'

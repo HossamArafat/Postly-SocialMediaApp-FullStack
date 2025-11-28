@@ -1,19 +1,26 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import UserCard from "../components/discover/UserCard"
 import Loading from "../components/shared/Loading"
 import SearchBar from "../components/discover/SearchBar"
 import { useDispatch, useSelector } from "react-redux"
-import { discoverProfiles } from "../redux/features/users/userThunks"
+import { discoverProfiles, fetchUserData } from "../redux/features/users/userThunks"
+import { resetDiscoveredUsers } from "../redux/features/users/userSlice"
 
 const Discover = () => {
   // States
   const dispatch = useDispatch()
   const [keyword, setKeyword] = useState("")
-  const {discoverdUsers} = useSelector(state=> state.user)
+  const {discoveredUsers} = useSelector(state=> state.user)
   const {isLoading} = useSelector(state=> state.loading)
+
+  useEffect(()=> {
+    dispatch(resetDiscoveredUsers())
+    dispatch(fetchUserData())
+  }, [dispatch])
 
   // Functions
   const handleSearch = ()=> dispatch(discoverProfiles(keyword))
+  console.log(discoveredUsers)
 
   return (
       <div className="max-w-6xl px-6">
@@ -26,7 +33,7 @@ const Discover = () => {
         <SearchBar keyword={keyword} setKeyword={setKeyword} handleSearch={handleSearch}/>
         <div className="flex flex-wrap gap-6">
           {
-            discoverdUsers.map((user, i)=> <UserCard key={i} user={user} /> )
+            discoveredUsers?.map((user, i)=> <UserCard key={i} user={user} /> )
           }
         </div>
         { isLoading && <Loading height="60vh"/> }

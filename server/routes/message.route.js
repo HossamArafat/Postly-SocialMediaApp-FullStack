@@ -1,15 +1,15 @@
 import express from "express";
 import protect from "../middlewares/auth.middleware.js";
 import uploadImage from "../middlewares/image.middlware.js";
-import { createSSEstream, getRecentMessages, receiveChatMessage, sendChatMessage } from "../controllers/message.controller.js";
+import { getChatMessages, getRecentMessages, getSSEstream, sendChatMessage } from "../controllers/message.controller.js";
 
 
 const messageRouter = express.Router()
 
+messageRouter.get('/sse-stream', getSSEstream)
 messageRouter.use(protect)
-messageRouter.post('/sse-stream', createSSEstream)
 messageRouter.post('/send', uploadImage , sendChatMessage)
-messageRouter.get('/receive', receiveChatMessage)
-messageRouter.get('/recent-message', getRecentMessages)
+messageRouter.get('/recent', getRecentMessages)
+messageRouter.get('/:from_user', getChatMessages)
 
 export default messageRouter

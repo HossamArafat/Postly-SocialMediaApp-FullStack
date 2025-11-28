@@ -1,5 +1,5 @@
-
 import { Search } from "lucide-react"
+
 
 const SearchBar = ({keyword, setKeyword, handleSearch}) => {
   return (

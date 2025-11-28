@@ -27,9 +27,9 @@ const api = {
 
     // MESSAGE APIS
     createSSEstream: ()=> customAxios.post("/message/sse-stream"),
-    sendMessage: (data)=> customAxios.get("/message/send", data),
-    receiveMessage: (data)=> customAxios.get("/message/receive", data),
-    fetchRecentMessage: ()=> customAxios.post("/message/recent-message"),
+    sendMessage: (data)=> customAxios.post("/message/send", data),
+    fetchChatMessages: (data)=> customAxios.get(`/message/${data}`),
+    fetchRecentMessages: ()=> customAxios.get("/message/recent"),
 }
 
 export default api

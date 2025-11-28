@@ -2,6 +2,7 @@ import postModel from "../models/post.model.js"
 import userModel from "../models/user.model.js"
 import uploadImg from "../utils/uploadImg.js"
 
+
 // @des    Create post
 // @route  POST api/post/add
 // @access private-logged user

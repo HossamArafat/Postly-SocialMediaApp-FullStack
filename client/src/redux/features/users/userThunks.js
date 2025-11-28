@@ -59,7 +59,7 @@ const discoverProfiles = createAsyncThunk(
     async(keyword)=> {
         const { data } = await api.discoverProfiles(keyword)
         if(data.success) {
-            return data.users            
+            return {users: data.users, connections: data.connections }          
         }else {
             toast.error(data.message)
             return 'failed'

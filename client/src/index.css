@@ -4,6 +4,21 @@
     font-family: "Outfit", sans-serif;
 }
 
-::-webkit-scrollbar {
+
+::-webkit-scrollbar{
     display: none;
+}
+
+.scroll-show::-webkit-scrollbar{
+    display: block;
+    width: 12px;
+    background-color: rgb(213, 211, 211);
+    border-radius: 7px;
+}
+
+.scroll-show::-webkit-scrollbar-thumb {
+  background: #615fff;
+  border-radius: 7px;
+  border: 2px solid transparent;
+  background-clip: content-box;
 }

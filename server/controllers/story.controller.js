@@ -3,13 +3,13 @@ import storyModel from "../models/story.model.js"
 import userModel from "../models/user.model.js"
 import uploadImg from "../utils/uploadImg.js"
 
+
 // @des    Create story
 // @route  POST api/story/add
 // @access private-logged user
 const addStory = async (req, res) => {
     try{
         const {userId} = req.auth()
-        console.log(req.file)
         const media = req.file
         if(media) {
             const url = await uploadImg(media, "storeis")
@@ -17,7 +17,7 @@ const addStory = async (req, res) => {
         }
         const story = await storyModel.create({user: userId, ...req.body})
         await inngest.send({  // to delete story after 24 hours
-            name: "app/story.delete",
+            name: "app/story.deleted",
             data:{storyId:story._id}
         })
         res.json({success: true, message: "Story added successfully"})

@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateUserData } from '../../redux/features/users/userThunks'
 
 const EditProfile = ({setShowEdit}) => {
-  const user = useSelector(state=> state.user.value)
+  const {currentUser} = useSelector(state=> state.user)
   const dispatch = useDispatch()
   const [editForm, setEditForm] = useState({
-    username:user.username,
-    full_name:user.full_name,
-    bio:user.bio,
-    location: user.location,
+    username: currentUser.username,
+    full_name: currentUser.full_name,
+    bio: currentUser.bio,
+    location: currentUser.location,
     profile_picture:null,
     cover_photo:null,
   })
@@ -45,7 +45,7 @@ const EditProfile = ({setShowEdit}) => {
                             onChange={e=>setEditForm({...editForm, [item[1]]:e.target.files[0]})}
                         />
                         <div className="group relative">
-                            <img src={editForm[item[1]] ? URL.createObjectURL(editForm[item[1]]) : user[item[1]]} alt="" className={`${item[2]} ${item[3]} mt-2 object-cover bg-linear-to-r from-indigo-200 via-purple-200 to-pink-200`}/>
+                            <img src={editForm[item[1]] ? URL.createObjectURL(editForm[item[1]]) : currentUser[item[1]]} alt="" className={`${item[2]} ${item[3]} mt-2 object-cover bg-linear-to-r from-indigo-200 via-purple-200 to-pink-200`}/>
                             <div className={`absolute inset-0 hidden group-hover:flex items-center justify-center bg-black/20 ${item[3]}`}>
                               <Pencil className="size-5 text-white"/>
                             </div>

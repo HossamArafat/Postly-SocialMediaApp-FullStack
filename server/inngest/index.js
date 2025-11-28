@@ -62,7 +62,7 @@ const syncUserDeletion = inngest.createFunction(
     {event: "clerk/user.deleted"},
     async ({event, step})=> {
         await step.run("delete-user", async()=> {
-            await userModel.findByIdAndDelete(event.data.id)
+            await storyModel.findByIdAndDelete(event.data.id)
         })
     }
 )
@@ -102,8 +102,8 @@ const syncNewConnectionRequestReminder = inngest.createFunction(
         await step.run("send-reminder-after-24-hours", async()=> {
             const newConnection = await connectionModel.findById(connectionId).populate("to_user from_user")
             if(!newConnection || newConnection.status == "accepted") return
+            
             const {subject, body} = getReminderContent(newConnection)
-
             await sendEmail({to: newConnection.to_user.email, subject, body})
         })
     }

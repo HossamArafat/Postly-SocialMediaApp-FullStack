@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 
 const sendEmail = async ({to, subject, body}) => {
     const email = await transporter.sendMail({
-        from: process.env.EMAIL_SENDER,
+        from: `"Postly" <${process.env.EMAIL_SENDER}>`,
         to,
         subject,
         html: body

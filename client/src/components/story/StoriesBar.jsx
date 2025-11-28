@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchStories } from "../../redux/features/stories/storyThunks"
 import StoryCard from "./storyCard"
 
+
 const StoriesBar = () => {
     const dispatch = useDispatch()
     const {isLoading} = useSelector(state=> state.loading)

@@ -11,12 +11,12 @@ import storyRouter from './routes/story.route.js'
 import messageRouter from './routes/message.route.js'
 import connectionRouter from './routes/connection.route.js'
 
+
 connectDB()
 const app = express()
 app.use(express.json())
 app.use(cors())
 app.use(clerkMiddleware())
-
 
 app.get("/", (req, res) => res.send("Server is running"))
 app.use("/api/inngest", serve({ client: inngest, functions }));  // serve to help express to mount the inngest functions

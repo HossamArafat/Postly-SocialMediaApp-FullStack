@@ -3,6 +3,7 @@ import { discoverUsers, followUser, getSpecificProfile, getUserData, getUsers, r
 import protect from "../middlewares/auth.middleware.js";
 import uploadImage from "../middlewares/image.middlware.js";
 
+
 const userRouter = express.Router()
 
 userRouter.use(protect)

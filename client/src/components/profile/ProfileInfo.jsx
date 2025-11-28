@@ -5,12 +5,12 @@ const ProfileInfo = ({user, posts, profileId, setShowEdit}) => {
   return (
     <div className="rounded-2xl overflow-hidden bg-white shadow">
         <div className="h-40 md:h-56 bg-linear-to-r from-indigo-200 via-purple-200 to-pink-200">
-            <img src={user.cover_photo} className="size-full object-cover"/>
+            { user.cover_photo && <img src={user.cover_photo} className="size-full object-cover"/> }
         </div>
         <div className="relative py-4 px-6 md:px-8">
             <div className="flex flex-col md:flex-row items-start gap-6">
                 <div className="absolute -top-16 size-32 border-4 border-white rounded-full overflow-hidden shadow-lg">
-                    <img src={user.profile_picture} alt=""/>
+                   { user.profile_picture && <img src={user.profile_picture} alt=""/> }
                 </div>
                 <div className="w-full pt-16 md:pt-0 md:pl-36">
                     <div className="flex flex-col gap-3 md:flex-row items-start justify-between">

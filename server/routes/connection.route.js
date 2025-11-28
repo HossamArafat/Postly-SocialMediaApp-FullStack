@@ -6,7 +6,7 @@ import { acceptConnection, requestConnection } from "../controllers/connection.c
 const connectionRouter = express.Router()
 
 connectionRouter.use(protect)
-connectionRouter.post('/connect', requestConnection)
-connectionRouter.post('/accept', acceptConnection)
+connectionRouter.put('/connect', requestConnection)
+connectionRouter.put('/accept', acceptConnection)
 
 export default connectionRouter

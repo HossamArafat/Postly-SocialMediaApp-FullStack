@@ -204,7 +204,85 @@ export const dummyRecentMessagesData = [
         "createdAt": "2025-07-10T12:47:40.510Z",
         "updatedAt": "2025-07-10T12:47:40.510Z",
         "seen": false
-    }
+    },
+    {
+        "_id": "686fb66c7f0dcbff63b239e7",
+        "from_user": dummyUser3Data,
+        "to_user": dummyUserData,
+        "text": "how are you",
+        "message_type": "text",
+        "media_url": "",
+        "createdAt": "2025-07-10T12:47:40.510Z",
+        "updatedAt": "2025-07-10T12:47:40.510Z",
+        "seen": false
+    },
+    {
+        "_id": "686fb66c7f0dcbff63b239e7",
+        "from_user": dummyUser3Data,
+        "to_user": dummyUserData,
+        "text": "how are you",
+        "message_type": "text",
+        "media_url": "",
+        "createdAt": "2025-07-10T12:47:40.510Z",
+        "updatedAt": "2025-07-10T12:47:40.510Z",
+        "seen": false
+    },
+    {
+        "_id": "686fb66c7f0dcbff63b239e7",
+        "from_user": dummyUser3Data,
+        "to_user": dummyUserData,
+        "text": "how are you",
+        "message_type": "text",
+        "media_url": "",
+        "createdAt": "2025-07-10T12:47:40.510Z",
+        "updatedAt": "2025-07-10T12:47:40.510Z",
+        "seen": false
+    },
+    {
+        "_id": "686fb66c7f0dcbff63b239e7",
+        "from_user": dummyUser3Data,
+        "to_user": dummyUserData,
+        "text": "how are you",
+        "message_type": "text",
+        "media_url": "",
+        "createdAt": "2025-07-10T12:47:40.510Z",
+        "updatedAt": "2025-07-10T12:47:40.510Z",
+        "seen": false
+    },
+    {
+        "_id": "686fb66c7f0dcbff63b239e7",
+        "from_user": dummyUser3Data,
+        "to_user": dummyUserData,
+        "text": "how are you",
+        "message_type": "text",
+        "media_url": "",
+        "createdAt": "2025-07-10T12:47:40.510Z",
+        "updatedAt": "2025-07-10T12:47:40.510Z",
+        "seen": false
+    },
+    {
+        "_id": "686fb66c7f0dcbff63b239e7",
+        "from_user": dummyUser3Data,
+        "to_user": dummyUserData,
+        "text": "how are you",
+        "message_type": "text",
+        "media_url": "",
+        "createdAt": "2025-07-10T12:47:40.510Z",
+        "updatedAt": "2025-07-10T12:47:40.510Z",
+        "seen": false
+    },
+    {
+        "_id": "686fb66c7f0dcbff63b239e7",
+        "from_user": dummyUser3Data,
+        "to_user": dummyUserData,
+        "text": "how are you",
+        "message_type": "text",
+        "media_url": "",
+        "createdAt": "2025-07-10T12:47:40.510Z",
+        "updatedAt": "2025-07-10T12:47:40.510Z",
+        "seen": false
+    },
+    
 ]
 
 export const dummyMessagesData = [
