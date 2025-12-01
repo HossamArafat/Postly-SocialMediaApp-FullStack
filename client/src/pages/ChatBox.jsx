@@ -75,7 +75,7 @@ const ChatBox = () => {
       <div className="p-5 md:px-10 w-full h-full space-y-4 overflow-y-scroll">
         {
             chatMessages.toSorted((a, b)=> new Date(a.createdAt) - new Date(b.createdAt)).map((message, i)=> {
-                const condition = message.to_user != user?._id
+                const condition = message.to_user._id != user?._id
                 const isIext = message.message_type == "text"
                 return <div key={i} className={`flex flex-col ${condition ? "items-start" : "items-end"}`}>
                     <div className={`max-w-sm overflow-x-scroll ${isIext ? "p-2" : "p-1"} rounded-lg text-sm shadow ${condition ? "rounded-bl-none bg-white text-slate-700" : "rounded-br-none bg-indigo-500 text-white"}`}>

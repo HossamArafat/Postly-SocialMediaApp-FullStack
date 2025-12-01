@@ -5,7 +5,7 @@ import api from '../../../api/api'
 const fetchUserData = createAsyncThunk(
     'user/data',
     async()=> {
-        const { data } = await api.fetchUserData()
+        const { data } = await api.fetchUserData()       
         if(data.success) {
             return data.user
         }else {
